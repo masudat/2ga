@@ -147,7 +147,13 @@ ul,li{
   text-decoration:none;   
 }
 
+<<<<<<< HEAD
 /* form style */
+=======
+
+/* form style */
+
+>>>>>>> update style
 div#toga_login_image p img{
   display:block;
   margin:auto;
@@ -224,6 +230,10 @@ form#sf_guard_signin li:nth-of-type(2):before{
   content: " *";
 }
 form#sf_guard_signin input{
+<<<<<<< HEAD
+=======
+  /*float:left;*/
+>>>>>>> update style
 }
 form#sf_guard_signin li input[type="text"],
 form#sf_guard_signin li input[type="password"]{
