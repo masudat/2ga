@@ -5,21 +5,24 @@
       };
     //console.log("xxx");
     //GROUP:VCS
-    $("#easycommit").click(function() {
+    
+    $(".easycommit").click(function() {
       console.log("clicked");
       $("#easycommit-dialog").dialog("open");
       return false;
     });
 		
-    //GROUP:VCS                    
-    $("#commit").click(function() {
+    //GROUP:VCS   
+    
+    $(".commit").click(function() {
       console.log("clicked");
       $("#commit-dialog").dialog("open");
       return false;
     });
                         
     //GROUP:VCS                    
-    $( "#pull" ).click(function() {
+    $( ".pull" ).click(function() {
+      //console.log("clicked");
       if(confirm('Pull ?'))
         $.ajax({
           type: 'POST',
@@ -30,18 +33,24 @@
     });
     
     //GROUP:VCS
-    $("#add").click(function() {
-      if(confirm('Add ?'))  
+    $(".add").click(function() {
+      if(confirm('Add ?'))
+        var add;
+          var uri = curnode.data.key;
+          if (curnode.data.isFolder) {
+            add = "dir";
+          }else add = "file";
         $.ajax({
           type: 'POST',
-          url: '<?php echo url_for('git/add') ?>',
+          url: '<?php echo url_for('git/add')?>',
           data: {project:"<?php echo $project_id ?>"},
           success: function(data) {alert(getContent(data))}
         });
     });
     
-    //GROUP:VCS                    
-    $("#push").click(function() {
+    //GROUP:VCS  
+    
+    $(".push").click(function() {
       if(confirm('Push ?'))
         $.ajax({
           type: 'POST',
@@ -51,10 +60,103 @@
         });
     });
     
+    $(".diff").click(function() {
+      if(confirm('Diff ?'))
+        $.ajax({
+          type: 'POST',
+          url: '<?php echo url_for('git/diff') ?>',
+          data: {project:"<?php echo $project_id ?>"},
+          success: function(data) {alert(getContent(data))}
+        });
+    });
+    
     //GROUP:VCS 
-    $( "#team" ).click(function() {
+    
+    $( ".team" ).click(function() {
       $("#team-dialog").dialog( "open" );
       return false;
+    });
+    
+    $( ".local" ).click(function() {
+      $("#local-dialog").dialog( "open" );
+      $("#git-dialog").dialog("close" );
+      return false;
+    });
+    
+    $( ".branch" ).click(function() {
+      $("#branch-dialog").dialog( "open" );
+      $("#git-dialog").dialog("close" );
+      return false;
+    });
+    
+    $( ".remote" ).click(function() {
+      $("#remote-dialog").dialog( "open" );
+      $("#git-dialog").dialog("close" );
+      return false;
+    });
+    
+    $( ".create_branch" ).click(function() {
+      $("#create-branch-dialog").dialog( "open" );
+      $("#local-dialog").dialog("close" );
+      return false;
+    });
+    
+    
+    //git
+    $("#git-dialog").dialog(
+    { 
+      position: 'center',
+      autoOpen: false,
+      title: 'Git',
+      widht:800,
+      height:300,
+      buttons: { "Ok": function() {
+          if(confirm('Git ?')){  
+              $.ajax({
+                type: 'POST',
+                url: '<?php echo url_for('git/') ?>',
+                data: {project:"<?php echo $project_id ?>"},
+                success: function(data) {alert(getContent(data)/*"add clicked"*/)}
+                //success: function(){alert()}
+              });
+              $(this).dialog("close");
+            }else{
+              return false;
+            }
+        }, 
+        "Cancel": function() { $(this).dialog("close"); }}
+    });
+    
+    //add
+    $("#add-dialog").dialog(
+    { 
+      position: 'center',
+      autoOpen: false,
+      title: 'Add',
+      widht:800,
+      height:300,
+      buttons: { "Ok": function() {
+          if(confirm('Add ?')){  
+              $.ajax({
+                type: 'POST',
+                //url: '<?php echo url_for('git/add') ?>',
+                url: 'addSuccess.php',
+                data: {project:"<?php echo $project_id ?>"},
+                //success: function(data) {alert(getContent(data))}
+                success: function(data) {
+                  //jQuery( '#add-dialog' ) . html( data );
+                  alert("OK");
+                },
+                error:function(){
+                  alert("error");
+                }
+              });
+              $(this).dialog("close");
+            }else{
+              return false;
+            }
+        }, 
+        "Cancel": function() { $(this).dialog("close"); }}
     });
 
     //GROUP:VCS
@@ -80,6 +182,49 @@
         }, 
         "Cancel": function() { $(this).dialog("close"); }}
     });
+    
+    
+    $("#pull-dialog").dialog(
+    { 
+      position: 'center',
+      autoOpen: false,
+      title: 'Pull',
+      widht:800,
+      height:300,
+      buttons: { "Ok": function() {
+          if(confirm('Pull ?'))
+            $.ajax({
+              type: 'POST',
+              url: '<?php echo url_for('git/pull') ?>',
+              data: {project:"<?php echo $project_id ?>"},
+              success: function(data) {alert(getContent(data))}
+            });
+            $(this).dialog("close");
+        }, 
+        "Cancel": function() { $(this).dialog("close"); }}
+    });
+    
+    
+    $("#push-dialog").dialog(
+    { 
+      position: 'center',
+      autoOpen: false,
+      title: 'Push',
+      widht:800,
+      height:300,
+      buttons: { "Ok": function() {
+          if(confirm('Push ?'))
+            $.ajax({
+              type: 'POST',
+              url: '<?php echo url_for('git/push') ?>',
+              data: {project:"<?php echo $project_id ?>"},
+              success: function(data) {alert(getContent(data))}
+            });
+            $(this).dialog("close");
+        }, 
+        "Cancel": function() { $(this).dialog("close"); }}
+    });
+    
     
     //GROUP:VCS  
     $("#easycommit-dialog").dialog(
@@ -116,6 +261,9 @@
       buttons: { 
         "Close": function() { $(this).dialog("close"); }}
     });
+    
+    
+    
    
     //GROUP:VCS 
     $("#rename-dialog").dialog(
@@ -168,5 +316,59 @@
         "Cancel": function() { $(this).dialog("close"); }}
     });
     
+    
+    $("#local-dialog").dialog(
+    { 
+      position: 'center',
+      autoOpen: false,
+      title: "Local",
+      widht:800,
+      height:300,
+      buttons: { 
+        "Close": function() { $(this).dialog("close"); }}
+    });
+    
+    $("#branch-dialog").dialog(
+    { 
+      position: 'center',
+      autoOpen: false,
+      title: "Branch",
+      widht:800,
+      height:300,
+      buttons: { 
+        "Close": function() { $(this).dialog("close"); }}
+    });
+    
+    $("#remote-dialog").dialog(
+    { 
+      position: 'center',
+      autoOpen: false,
+      title: "Remote",
+      widht:800,
+      height:300,
+      buttons: { 
+        "Close": function() { $(this).dialog("close"); }}
+    });
+    
+    $("#create-branch-dialog").dialog(
+    { 
+      position: 'center',
+      autoOpen: false,
+      title: 'create branch',
+      buttons: { "Ok": function() {
+          $(this).dialog("close");
+          var curproject = "<?php echo $project_id ?>"; 
+          var newname = $("#create-branch-dialog input").val();
+          $("#create-branch-dialog input").val(""); 
+          console.log(newname);
+          $.ajax({
+            type: 'POST',
+            url: '<?php echo url_for('git/createbranch') ?>',
+            data: {project:curproject,newname:newname },
+            success: function(data) { }
+          });
+        }, 
+        "Cancel": function() { $(this).dialog("close"); }}
+    });
   });
 </script>
