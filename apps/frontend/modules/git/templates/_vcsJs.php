@@ -19,6 +19,12 @@
       $("#commit-dialog").dialog("open");
       return false;
     });
+    
+    $(".clone").click(function() {
+      console.log("clicked");
+      $("#clone-dialog").dialog("open");
+      return false;
+    });
                         
     //GROUP:VCS                    
     $( ".pull" ).click(function() {
@@ -43,7 +49,7 @@
         $.ajax({
           type: 'POST',
           url: '<?php echo url_for('git/add')?>',
-          data: {project:"<?php echo $project_id ?>"},
+          data: {project:"<?php echo $project_id ?>",uri:uri},
           success: function(data) {alert(getContent(data))}
         });
     });
@@ -69,6 +75,15 @@
           success: function(data) {alert(getContent(data))}
         });
     });
+    /*$(".clone").click(function() {
+      if(confirm('clone ?'))
+        $.ajax({
+          type: 'POST',
+          url: '<?php echo url_for('git/clone') ?>',
+          data: {project:"<?php echo $project_id ?>"},
+          success: function(data) {alert(getContent(data))}
+        });
+    });*/
     
     //GROUP:VCS 
     
@@ -139,12 +154,9 @@
           if(confirm('Add ?')){  
               $.ajax({
                 type: 'POST',
-                //url: '<?php echo url_for('git/add') ?>',
                 url: 'addSuccess.php',
                 data: {project:"<?php echo $project_id ?>"},
-                //success: function(data) {alert(getContent(data))}
                 success: function(data) {
-                  //jQuery( '#add-dialog' ) . html( data );
                   alert("OK");
                 },
                 error:function(){
@@ -366,6 +378,29 @@
             url: '<?php echo url_for('git/createbranch') ?>',
             data: {project:curproject,newname:newname },
             success: function(data) { }
+          });
+        }, 
+        "Cancel": function() { $(this).dialog("close"); }}
+    });
+    
+    $("#clone-dialog").dialog(
+    { 
+      position: 'center',
+      autoOpen: false,
+      title: 'Clone',
+      widht:800,
+      height:300,
+      buttons: { "Ok": function() {
+          var curproject = "<?php echo $project_id ?>"; 
+          $(this).dialog("close");
+          var url = $("#clone-dialog textarea").val();
+          $("#clone-dialog textarea").val("");
+          console.log(curproject);
+          $.ajax({
+            type: 'POST',
+            url: '<?php echo url_for('git/clone') ?>',
+            data: {project:curproject,url:url},
+            success: function(data) {alert(getContent(data))}
           });
         }, 
         "Cancel": function() { $(this).dialog("close"); }}

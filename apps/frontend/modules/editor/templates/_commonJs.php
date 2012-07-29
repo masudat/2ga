@@ -156,6 +156,9 @@
           case "create-branch" : 
             $("#create-branch-dialog").dialog('open');
             break;
+          case "clone" : 
+            $("#clone-dialog").dialog('open');
+            break;
         }
       });
     };

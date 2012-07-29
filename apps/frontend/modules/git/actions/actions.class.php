@@ -40,8 +40,10 @@ class gitActions extends sfActions
     $temp_user = $this->getUser()->getGuardUser()->getUsername();
     //$temp_dir = $this->ide_project->getLocaldir();
     //exec("git add $temp_dir");
-    exec("git add ./*");
-    $this->data = $temp_user." add";
+    $uri = $request->getParameter('uri', '');
+    //exec("git add ./*");
+    exec("git add $uri");
+    $this->data = $temp_user." add ".$uri;
     
   }
 
@@ -68,7 +70,7 @@ class gitActions extends sfActions
     $git_obj->git_commit(escapeshellcmd($comment));
     $this->data = "OK";*/
     exec("git commit -m $comment");
-    $this->data = $this->getUser()->getGuardUser()->getUsername()." add all and commit. (comment:".$comment.")";
+    $this->data = $this->getUser()->getGuardUser()->getUsername()." commit. (comment:".$comment.")";
     
   }
 
@@ -136,7 +138,7 @@ class gitActions extends sfActions
     $this->data = "OK";*/
     exec("git add ./*");
     exec("git commit -m $comment");
-    $this->data = $this->getUser()->getGuardUser()->getUsername()." commit. (comment:".$comment.")";
+    $this->data = $this->getUser()->getGuardUser()->getUsername()." add all and commit. (comment:".$comment.")";
   }
   
   public function executeCheckbranch(sfWebRequest $request)
@@ -163,5 +165,19 @@ class gitActions extends sfActions
     }
     //exec("git branch ,'$newname'");
     $this->data = "created branch: ".$newname;
+  }
+  public function executeClone(sfWebRequest $request)
+  {
+    $db_obj = new IdeProject();
+    $this->forward404Unless($db_obj->hasAccess($request->getParameter('project'), $this->getUser()->getGuardUser()->getId()));
+    $this->ide_project = Doctrine_Core::getTable('IdeProject')->find(array($request->getParameter('project')));
+    $url = $request->getParameter('url', '');
+    if ('' == $url)
+    {
+      $this->msg = "please input url";
+      return sfView::ERROR;
+    }
+    exec("git clone $url");
+    $this->data = $url." clone done";
   }
 }

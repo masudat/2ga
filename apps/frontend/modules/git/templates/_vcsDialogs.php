@@ -81,7 +81,7 @@
 
 <div id ="remote-dialog" sytle ="margin:auto!important">
   <div id="clone">
-    <a href="#clone"><button id="clone">Clone<br><span class="ui-icon ui-icon-wrench" title="Clone"></span></button></a>
+    <a href="#clone"><button class="clone">Clone<br><span class="ui-icon ui-icon-wrench" title="Clone"></span></button></a>
   </div>
   <div id="pull">
     <a href="#pull"><button class="pull">Pull<br><span class="ui-icon ui-icon-wrench" title="Pull"></span></button></a>
@@ -117,4 +117,7 @@
   Enter New Branch Name</br>
   <input style ="width:90%!important;margin:auto!important" />  
 </div>
-
+<div id ="clone-dialog" sytle ="margin:auto!important">
+  url</br><br/>
+  <textarea style ="width:90%!important;margin:auto!important;boder:solid red 1px!important"></textarea>
+</div>
