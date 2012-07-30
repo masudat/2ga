@@ -141,6 +141,22 @@ class gitActions extends sfActions
     $this->data = $this->getUser()->getGuardUser()->getUsername()." add all and commit. (comment:".$comment.")";
   }
   
+  public function executeClone(sfWebRequest $request)
+  {
+    $db_obj = new IdeProject();
+    $this->forward404Unless($db_obj->hasAccess($request->getParameter('project'), $this->getUser()->getGuardUser()->getId()));
+    $uri = $request->getParameter('uri', '');
+    if ('' == $uri)
+    {
+      $this->msg = "please input url";
+      return sfView::ERROR;
+    }
+    $this->ide_project = Doctrine_Core::getTable('IdeProject')->find(array($request->getParameter('project')));
+    $this->ide_key = Doctrine_Core::getTable('IdeKey')->find(array($request->getParameter('id')));
+    exec("git clone $uri -key: '$this->ide_key'");
+    $this->data = $uri." clone done";
+  }
+  
   public function executeCheckbranch(sfWebRequest $request)
   {
     $db_obj = new IdeProject();
@@ -163,21 +179,7 @@ class gitActions extends sfActions
       $this->msg = "please input new branch name";
       return sfView::ERROR;
     }
-    //exec("git branch ,'$newname'");
+    exec("git branch $newname");
     $this->data = "created branch: ".$newname;
-  }
-  public function executeClone(sfWebRequest $request)
-  {
-    $db_obj = new IdeProject();
-    $this->forward404Unless($db_obj->hasAccess($request->getParameter('project'), $this->getUser()->getGuardUser()->getId()));
-    $this->ide_project = Doctrine_Core::getTable('IdeProject')->find(array($request->getParameter('project')));
-    $url = $request->getParameter('url', '');
-    if ('' == $url)
-    {
-      $this->msg = "please input url";
-      return sfView::ERROR;
-    }
-    exec("git clone $url");
-    $this->data = $url." clone done";
   }
 }

@@ -377,7 +377,7 @@
             type: 'POST',
             url: '<?php echo url_for('git/createbranch') ?>',
             data: {project:curproject,newname:newname },
-            success: function(data) { }
+            success: function(data) { alert(getContent(data)) }
           });
         }, 
         "Cancel": function() { $(this).dialog("close"); }}
@@ -391,17 +391,20 @@
       widht:800,
       height:300,
       buttons: { "Ok": function() {
+          if(confirm('Clone ?')){  
           var curproject = "<?php echo $project_id ?>"; 
           $(this).dialog("close");
-          var url = $("#clone-dialog textarea").val();
+          var uri = $("#clone-dialog textarea").val();
           $("#clone-dialog textarea").val("");
           console.log(curproject);
+          console.log(uri);
           $.ajax({
             type: 'POST',
             url: '<?php echo url_for('git/clone') ?>',
-            data: {project:curproject,url:url},
+            data: {project:"<?php echo $project_id ?>",uri:uri},
             success: function(data) {alert(getContent(data))}
           });
+          }
         }, 
         "Cancel": function() { $(this).dialog("close"); }}
     });
