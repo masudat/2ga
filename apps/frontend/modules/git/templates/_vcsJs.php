@@ -116,6 +116,12 @@
       return false;
     });
     
+    $( ".checkout_branch" ).click(function() {
+      $("#checkout-branch-dialog").dialog( "open" );
+      $("#local-dialog").dialog("close" );
+      return false;
+    });
+    
     
     //git
     $("#git-dialog").dialog(
@@ -377,6 +383,26 @@
             type: 'POST',
             url: '<?php echo url_for('git/createbranch') ?>',
             data: {project:curproject,newname:newname },
+            success: function(data) { alert(getContent(data)) }
+          });
+        }, 
+        "Cancel": function() { $(this).dialog("close"); }}
+    });
+    $("#checkout-branch-dialog").dialog(
+    { 
+      position: 'center',
+      autoOpen: false,
+      title: 'checkout branch',
+      buttons: { "Ok": function() {
+          $(this).dialog("close");
+          var curproject = "<?php echo $project_id ?>"; 
+          var branchname = $("#checkout-branch-dialog input").val();
+          $("#checkout-branch-dialog input").val(""); 
+          console.log(branchname);
+          $.ajax({
+            type: 'POST',
+            url: '<?php echo url_for('git/checkoutbranch') ?>',
+            data: {project:curproject,branchname:branchname },
             success: function(data) { alert(getContent(data)) }
           });
         }, 

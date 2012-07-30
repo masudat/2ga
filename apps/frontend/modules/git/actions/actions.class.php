@@ -182,4 +182,22 @@ class gitActions extends sfActions
     exec("git branch $newname");
     $this->data = "created branch: ".$newname;
   }
+  public function executeCheckoutbranch(sfWebRequest $request)
+  {
+    $db_obj = new IdeProject();
+    $this->forward404Unless($db_obj->hasAccess($request->getParameter('project'), $this->getUser()->getGuardUser()->getId()));
+    $this->ide_project = Doctrine_Core::getTable('IdeProject')->find(array($request->getParameter('project')));
+    $branchname = $request->getParameter('branchname', '');
+    $res = exec("git checkout $branchname");
+    if ('' == $branchname)
+    {
+      $this->msg = "please input branch name";
+      return sfView::ERROR;
+    }else if($res == 'xxx'){
+      $this->msg = "branch name is not exit";
+      return sfView::ERROR;
+    }  
+    exec("git checkout $branchname");
+    $this->data = "checkout branch: ".$branchname;
+  }
 }

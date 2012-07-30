@@ -71,7 +71,7 @@
     <button class="create_branch">Create Branch<br><span class="ui-icon ui-icon-wrench" title="Create Branch"></span></button>
   </div>
   <div id="checkout_revision">
-    <button class="checkout_revision">Checkout Revision<br><span class="ui-icon ui-icon-wrench" title="Checkout Revision"></span></button>
+    <button class="checkout_branch">Checkout Revision<br><span class="ui-icon ui-icon-wrench" title="Checkout Revision"></span></button>
   </div>
   <div id="switch_to_branch">
     <button class="switch_to_branch">Switch to Branch<br><span class="ui-icon ui-icon-wrench" title="Switch to Branch"></span></button>
@@ -117,6 +117,11 @@
   Enter New Branch Name</br>
   <input style ="width:90%!important;margin:auto!important" />  
 </div>
+<div id ="checkout-branch-dialog" sytle ="margin:auto!important">
+  Enter Branch Name</br>
+  <input style ="width:90%!important;margin:auto!important" />  
+</div>
+
 <div id ="clone-dialog" sytle ="margin:auto!important">
   url</br><br/>
   <textarea style ="width:90%!important;margin:auto!important;boder:solid red 1px!important"></textarea>
