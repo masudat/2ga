@@ -397,13 +397,15 @@
           var newname = $("#create-branch-dialog input").val();
           $("#create-branch-dialog input").val(""); 
           console.log(newname);
+          var result = document.getElementById("console"); 
           $.ajax({
             type: 'POST',
             url: '<?php echo url_for('git/createbranch') ?>',
             data: {project:curproject,newname:newname },
             success: function(data) { 
               //alert(getContent(data))
-              alert("newbranch created : " + newname);
+              //alert("newbranch created : " + newname);
+              result.innerHTML = getContent(data);
             }
           });
         }, 

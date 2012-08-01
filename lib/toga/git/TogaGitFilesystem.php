@@ -8,7 +8,7 @@
 /**
  * Description of TogaGitFilesystem
  *
- * @author hy
+ * @author
  */
 class TogaGitFilesystem extends TogaFilesystem
 {
@@ -17,7 +17,7 @@ class TogaGitFilesystem extends TogaFilesystem
   {
     $output = array();
     $status = NULL;
-    exec("git add $path");
+    exec("git add $path",$output,$status);
     return $output."\n";
   }
   
@@ -29,7 +29,7 @@ class TogaGitFilesystem extends TogaFilesystem
     return $output."\n";
   }
   
-  public function gitEasyommit($comment)
+  public function gitEasycommit($comment)
   {
     $output = array();
     $status = NULL;

@@ -185,8 +185,6 @@ class gitActions extends sfActions
       $this->msg = "please input new branch name";
       return sfView::ERROR;
     }
-    //exec("git branch $newname");
-    //$this->data = "created branch: ".$newname;
     $exec = new TogaGitFilesystem();
     $b= $exec->gitCreatebranch($newname);
     echo("<root><contents>");
@@ -202,19 +200,15 @@ class gitActions extends sfActions
     $this->forward404Unless($db_obj->hasAccess($request->getParameter('project'), $this->getUser()->getGuardUser()->getId()));
     $this->ide_project = Doctrine_Core::getTable('IdeProject')->find(array($request->getParameter('project')));
     $branchname = $request->getParameter('branchname', '');
-    $res = exec("git checkout $branchname");
     if ('' == $branchname)
     {
       $this->msg = "please input branch name";
       return sfView::ERROR;
-    }/*else if($res == 'xxx'){
-      $this->msg = "branch name is not exit";
-      return sfView::ERROR;
-    }*/  
+    }
     //exec("git checkout $branchname");
     //$this->data = "checkout branch: ".$branchname;
     $exec = new TogaGitFilesystem();
-    $b= $exec->gitCheckoutbranch($brancname);
+    $b= $exec->gitCheckoutbranch($branhcname);
     echo("<root><contents>");
     foreach ($b as $this->data)
     {
