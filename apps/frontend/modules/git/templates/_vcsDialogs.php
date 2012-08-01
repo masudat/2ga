@@ -71,10 +71,7 @@
     <button class="create_branch">Create Branch<br><span class="ui-icon ui-icon-wrench" title="Create Branch"></span></button>
   </div>
   <div id="checkout_revision">
-    <button class="checkout_branch">Checkout Revision<br><span class="ui-icon ui-icon-wrench" title="Checkout Revision"></span></button>
-  </div>
-  <div id="switch_to_branch">
-    <button class="switch_to_branch">Switch to Branch<br><span class="ui-icon ui-icon-wrench" title="Switch to Branch"></span></button>
+    <button class="checkout_branch">Switch to Branch<br><span class="ui-icon ui-icon-wrench" title="Checkout Revision"></span></button>
   </div>
 </div>
 
