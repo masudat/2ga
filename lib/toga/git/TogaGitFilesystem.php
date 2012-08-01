@@ -12,13 +12,71 @@
  */
 class TogaGitFilesystem extends TogaFilesystem
 {
-  //Under construction :-}
+  
   public function gitAdd($path)
   {
-    //$res = exec("git add ,'$path'");
-    //$res = exec("git add $path");
-    //return $res."\n";
+    $output = array();
+    $status = NULL;
     exec("git add $path");
+    return $output."\n";
   }
+  
+  public function gitCommit($comment)
+  {
+    $output = array();
+    $status = NULL;
+    exec("git commit -m '$comment'",$output,$status);
+    return $output."\n";
+  }
+  
+  public function gitEasyommit($comment)
+  {
+    $output = array();
+    $status = NULL;
+    exec("git add /*");
+    exec("git commit -m '$comment'",$output,$status);
+    return $output."\n";
+  }
+  
+  public function gitPull()
+  {
+    $output = array();
+    $status = NULL;
+    exec("git pull",$output,$status);
+    return $output."\n";
+  }
+  
+  public function gitPush()
+  {
+    $output = array();
+    $status = NULL;
+    exec("git push origin master",$output,$status);
+    return $output."\n";
+  }
+  
+  public function gitCheckbranch()
+  {
+    $output = array();
+    $status = NULL;
+    exec("git branch",$output,$status);
+    return $output;
+  }
+  
+  public function gitCreatebranch($branchname)
+  {
+    $output = array();
+    $status = NULL;
+    exec("git branch $branchname",$output,$status);
+    return $output;
+  }
+  
+  public function gitCheckoutbranch($branchname)
+  {
+    $output = array();
+    $status = NULL;
+    exec("git checkout $branchname",$output,$status);
+    return $output;
+  }
+  
 }
 

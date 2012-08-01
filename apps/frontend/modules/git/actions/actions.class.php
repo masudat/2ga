@@ -39,11 +39,9 @@ class gitActions extends sfActions
     //$this->data = "OK";
     $temp_user = $this->getUser()->getGuardUser()->getUsername();
     $uri = $request->getParameter('uri', '');
-    //exec("git add $uri");
     $exec = new TogaGitFilesystem();
-    $exec->gitAdd($uri);
+    $exec->gitAdd($uri);   
     $this->data = $temp_user." add ".$uri;
-    
   }
 
   public function executeCommit(sfWebRequest $request)
@@ -68,9 +66,10 @@ class gitActions extends sfActions
             ));
     $git_obj->git_commit(escapeshellcmd($comment));
     $this->data = "OK";*/
-    exec("git commit -m '$comment'");
-    $this->data = $this->getUser()->getGuardUser()->getUsername()." commit. (comment:".$comment.")";
-    
+    //exec("git commit -m '$comment'");
+    $exec = new TogaGitFilesystem();
+    $exec->gitCommit($comment);
+    $this->data = $this->getUser()->getGuardUser()->getUsername()." commit. (comment:".$comment.")";  
   }
 
   public function executePull(sfWebRequest $request)
@@ -89,8 +88,9 @@ class gitActions extends sfActions
             ));
     $git_obj->git_pull();
     $this->data = "OK";*/
-    exec("git pull");
-    $this->data = $this->getUser()->getGuardUser()->getUsername()." pull .";
+    $exec = new TogaGitFilesystem();
+    $exec->gitPull();
+    $this->data = $this->getUser()->getGuardUser()->getUsername()." pull done.";
   }
 
   public function executePush(sfWebRequest $request)
@@ -109,8 +109,11 @@ class gitActions extends sfActions
             ));
     $git_obj->git_push();
     $this->data = "OK";*/
-    exec("git push origin master");
-    $this->data = $this->getUser()->getGuardUser()->getUsername()." git push origin master.";
+    //exec("git push origin master");
+    //$this->data = $this->getUser()->getGuardUser()->getUsername()." git push origin master.";
+    $exec = new TogaGitFilesystem();
+    $exec->gitPush(); 
+    $this->data = $this->getUser()->getGuardUser()->getUsername()." push origin master.";
   }
 
   public function executeEasycommit(sfWebRequest $request)
@@ -135,8 +138,8 @@ class gitActions extends sfActions
             ));
     $git_obj->git_easyCommit(escapeshellcmd($comment));
     $this->data = "OK";*/
-    exec("git add ./*");
-    exec("git commit -m '$comment'");
+    $exec = new TogaGitFilesystem();
+    $exec->gitEasycommit($comment);
     $this->data = $this->getUser()->getGuardUser()->getUsername()." add all and commit. (comment:".$comment.")";
   }
   
@@ -161,8 +164,14 @@ class gitActions extends sfActions
     $db_obj = new IdeProject();
     $this->forward404Unless($db_obj->hasAccess($request->getParameter('project'), $this->getUser()->getGuardUser()->getId()));
     $this->ide_project = Doctrine_Core::getTable('IdeProject')->find(array($request->getParameter('project')));
-    $res = exec("git branch");
-    $this->data = $res;
+    $exec = new TogaGitFilesystem();
+    $b= $exec->gitCheckbranch();
+    echo("<root><contents>");
+    foreach ($b as $this->data)
+    {
+      echo "$this->data\n";
+    }
+    echo("</contents></root>");
   }
   
   public function executeCreatebranch(sfWebRequest $request)
@@ -176,8 +185,16 @@ class gitActions extends sfActions
       $this->msg = "please input new branch name";
       return sfView::ERROR;
     }
-    exec("git branch $newname");
-    $this->data = "created branch: ".$newname;
+    //exec("git branch $newname");
+    //$this->data = "created branch: ".$newname;
+    $exec = new TogaGitFilesystem();
+    $b= $exec->gitCreatebranch($newname);
+    echo("<root><contents>");
+    foreach ($b as $this->data)
+    {
+      echo "$this->data\n";
+    }
+    echo("</contents></root>");
   }
   public function executeCheckoutbranch(sfWebRequest $request)
   {
@@ -194,7 +211,15 @@ class gitActions extends sfActions
       $this->msg = "branch name is not exit";
       return sfView::ERROR;
     }*/  
-    exec("git checkout $branchname");
-    $this->data = "checkout branch: ".$branchname;
+    //exec("git checkout $branchname");
+    //$this->data = "checkout branch: ".$branchname;
+    $exec = new TogaGitFilesystem();
+    $b= $exec->gitCheckoutbranch($brancname);
+    echo("<root><contents>");
+    foreach ($b as $this->data)
+    {
+      echo "$this->data\n";
+    }
+    echo("</contents></root>");  
   }
 }

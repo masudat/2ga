@@ -41,6 +41,7 @@
     //GROUP:VCS
     $(".add").click(function() {
       if(confirm('Add ?'))
+        var result = document.getElementById("console"); 
         var add;
           var uri = curnode.data.key;
           if (curnode.data.isFolder) {
@@ -50,7 +51,10 @@
           type: 'POST',
           url: '<?php echo url_for('git/add')?>',
           data: {project:"<?php echo $project_id ?>",uri:uri},
-          success: function(data) {alert(getContent(data))}
+          success: function(data) {
+            //alert(getContent(data))
+            result.innerHTML = getContent(data);
+          }
         });
     });
     
@@ -191,11 +195,15 @@
           var comment = $("#commit-dialog textarea").val();
           $("#commit-dialog textarea").val("");
           console.log(curproject);
+          var result = document.getElementById("console"); 
           $.ajax({
             type: 'POST',
             url: '<?php echo url_for('git/commit') ?>',
             data: {project:curproject,comment:comment},
-            success: function(data) {alert(getContent(data))}
+            success: function(data) {
+              //alert(getContent(data))
+              result.innerHTML = getContent(data);
+            }
           });
         }, 
         "Cancel": function() { $(this).dialog("close"); }}
@@ -215,7 +223,9 @@
               type: 'POST',
               url: '<?php echo url_for('git/pull') ?>',
               data: {project:"<?php echo $project_id ?>"},
-              success: function(data) {alert(getContent(data))}
+              success: function(data) {
+                alert(getContent(data))
+              }
             });
             $(this).dialog("close");
         }, 
@@ -232,11 +242,15 @@
       height:300,
       buttons: { "Ok": function() {
           if(confirm('Push ?'))
+            var result = document.getElementById("console");
             $.ajax({
               type: 'POST',
               url: '<?php echo url_for('git/push') ?>',
               data: {project:"<?php echo $project_id ?>"},
-              success: function(data) {alert(getContent(data))}
+              success: function(data) {
+                alert(getContent(data))
+                //result.innerHTML = getContent(data);
+              }
             });
             $(this).dialog("close");
         }, 
@@ -258,11 +272,15 @@
           var comment = $("#easycommit-dialog textarea").val();
           $("#easycommit-dialog textarea").val("");
           console.log(curproject);
+          var result = document.getElementById("console"); 
           $.ajax({
             type: 'POST',
             url: '<?php echo url_for('git/easycommit') ?>',
             data: {project:curproject,comment:comment},
-            success: function(data) {alert(getContent(data))}
+            success: function(data) {
+              //alert(getContent(data))
+              result.innerHTML = getContent(data);
+            }
           });
         }, 
         "Cancel": function() { $(this).dialog("close"); }}
@@ -383,7 +401,10 @@
             type: 'POST',
             url: '<?php echo url_for('git/createbranch') ?>',
             data: {project:curproject,newname:newname },
-            success: function(data) { alert(getContent(data)) }
+            success: function(data) { 
+              //alert(getContent(data))
+              alert("newbranch created : " + newname);
+            }
           });
         }, 
         "Cancel": function() { $(this).dialog("close"); }}
@@ -399,11 +420,15 @@
           var branchname = $("#checkout-branch-dialog input").val();
           $("#checkout-branch-dialog input").val(""); 
           console.log(branchname);
+          var result = document.getElementById("console"); 
           $.ajax({
             type: 'POST',
             url: '<?php echo url_for('git/checkoutbranch') ?>',
             data: {project:curproject,branchname:branchname },
-            success: function(data) { alert(getContent(data)) }
+            success: function(data) { 
+              //alert(getContent(data))
+              result.innerHTML = getContent(data);
+            }
           });
         }, 
         "Cancel": function() { $(this).dialog("close"); }}
@@ -415,12 +440,16 @@
       title: 'check branch',
       buttons: { "Ok": function() {
           $(this).dialog("close");
-          var curproject = "<?php echo $project_id ?>";        
+          var curproject = "<?php echo $project_id ?>";     
+          var result = document.getElementById("console"); 
           $.ajax({
             type: 'POST',
             url: '<?php echo url_for('git/checkbranch') ?>',
             data: {project:curproject },
-            success: function(data) { alert(getContent(data)) }
+            success: function(data) { 
+              //alert(getContent(data))
+              result.innerHTML = getContent(data);
+            }
           });
         }, 
         "Cancel": function() { $(this).dialog("close"); }}
@@ -428,11 +457,15 @@
     
     $(".check_branch").click(function() {
       if(confirm('check branch ?'))
+        var result = document.getElementById("console"); 
         $.ajax({
           type: 'POST',
           url: '<?php echo url_for('git/checkbranch')?>',
           data: {project:"<?php echo $project_id ?>"},
-          success: function(data) {alert(getContent(data))}
+          success: function(data) {
+            //alert(getContent(data))
+            result.innerHTML = getContent(data);
+          }
         });
     });
     
