@@ -69,7 +69,7 @@ class gitActions extends sfActions
             ));
     $git_obj->git_commit(escapeshellcmd($comment));
     $this->data = "OK";*/
-    exec("git commit -m $comment");
+    exec("git commit -m '$comment'");
     $this->data = $this->getUser()->getGuardUser()->getUsername()." commit. (comment:".$comment.")";
     
   }
@@ -137,7 +137,7 @@ class gitActions extends sfActions
     $git_obj->git_easyCommit(escapeshellcmd($comment));
     $this->data = "OK";*/
     exec("git add ./*");
-    exec("git commit -m $comment");
+    exec("git commit -m '$comment'");
     $this->data = $this->getUser()->getGuardUser()->getUsername()." add all and commit. (comment:".$comment.")";
   }
   

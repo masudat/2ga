@@ -408,6 +408,34 @@
         }, 
         "Cancel": function() { $(this).dialog("close"); }}
     });
+    $("#check_branch-dialog").dialog(
+    { 
+      position: 'center',
+      autoOpen: false,
+      title: 'check branch',
+      buttons: { "Ok": function() {
+          $(this).dialog("close");
+          var curproject = "<?php echo $project_id ?>";        
+          $.ajax({
+            type: 'POST',
+            url: '<?php echo url_for('git/checkbranch') ?>',
+            data: {project:curproject },
+            success: function(data) { alert(getContent(data)) }
+          });
+        }, 
+        "Cancel": function() { $(this).dialog("close"); }}
+    });
+    
+    $(".check_branch").click(function() {
+      if(confirm('check branch ?'))
+        $.ajax({
+          type: 'POST',
+          url: '<?php echo url_for('git/checkbranch')?>',
+          data: {project:"<?php echo $project_id ?>"},
+          success: function(data) {alert(getContent(data))}
+        });
+    });
+    
     
     $("#clone-dialog").dialog(
     { 

@@ -73,6 +73,9 @@
   <div id="checkout_revision">
     <button class="checkout_branch">Switch to Branch<br><span class="ui-icon ui-icon-wrench" title="Checkout Revision"></span></button>
   </div>
+  <div id="check_branch">
+    <button class="check_branch">Check Branch<br><span class="ui-icon ui-icon-wrench" title="Check Branch"></span></button>
+  </div>
 </div>
 
 
@@ -117,6 +120,9 @@
 <div id ="checkout-branch-dialog" sytle ="margin:auto!important">
   Enter Branch Name</br>
   <input style ="width:90%!important;margin:auto!important" />  
+</div>
+<div id="check_branch-dialog" sytle ="margin:auto!important">
+  Do you want to check branch ?
 </div>
 
 <div id ="clone-dialog" sytle ="margin:auto!important">

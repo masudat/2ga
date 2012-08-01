@@ -159,6 +159,9 @@
           case "checkout-branch" : 
             $("#checkout-branch-dialog").dialog('open');
             break;
+          case "check-branch" : 
+            $("#check-branch-dialog").dialog('open');
+            break;
           case "clone" : 
             $("#clone-dialog").dialog('open');
             break;
