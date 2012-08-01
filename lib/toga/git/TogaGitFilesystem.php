@@ -13,11 +13,12 @@
 class TogaGitFilesystem extends TogaFilesystem
 {
   //Under construction :-}
-  public function gitAdd()
+  public function gitAdd($path)
   {
     //$res = exec("git add ,'$path'");
-    $res = exec("git add .");
-    return $res."\n";
+    //$res = exec("git add $path");
+    //return $res."\n";
+    exec("git add $path");
   }
 }
 

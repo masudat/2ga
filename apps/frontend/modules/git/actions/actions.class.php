@@ -38,11 +38,10 @@ class gitActions extends sfActions
     //$git_obj->git_add();
     //$this->data = "OK";
     $temp_user = $this->getUser()->getGuardUser()->getUsername();
-    //$temp_dir = $this->ide_project->getLocaldir();
-    //exec("git add $temp_dir");
     $uri = $request->getParameter('uri', '');
-    //exec("git add ./*");
-    exec("git add $uri");
+    //exec("git add $uri");
+    $exec = new TogaGitFilesystem();
+    $exec->gitAdd($uri);
     $this->data = $temp_user." add ".$uri;
     
   }
@@ -162,8 +161,6 @@ class gitActions extends sfActions
     $db_obj = new IdeProject();
     $this->forward404Unless($db_obj->hasAccess($request->getParameter('project'), $this->getUser()->getGuardUser()->getId()));
     $this->ide_project = Doctrine_Core::getTable('IdeProject')->find(array($request->getParameter('project')));
-    //$temp_user = $this->getUser()->getGuardUser()->getUsername();
-    //$temp_dir = $this->ide_project->getLocaldir();
     $res = exec("git branch");
     $this->data = $res;
   }
@@ -193,10 +190,10 @@ class gitActions extends sfActions
     {
       $this->msg = "please input branch name";
       return sfView::ERROR;
-    }else if($res == 'xxx'){
+    }/*else if($res == 'xxx'){
       $this->msg = "branch name is not exit";
       return sfView::ERROR;
-    }  
+    }*/  
     exec("git checkout $branchname");
     $this->data = "checkout branch: ".$branchname;
   }
